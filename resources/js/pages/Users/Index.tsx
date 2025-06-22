@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -10,6 +10,13 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Index({users}) {
+
+    function handleDelete(id){
+        if(confirm("are you sure want to delete?")){
+            router.delete(route('users.destroy',id));
+        }
+
+    }
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Users" />
@@ -46,7 +53,9 @@ export default function Index({users}) {
 
                                        <Link href={route("users.show",id)} className='cursor-pointer px-3 py-2 text-xs font-medium text-white bg-orange-700'>Show</Link>
 
-                                       <button className='cursor-pointer px-3 py-2 text-xs font-medium text-white bg-red-500'>Delete</button>
+                                       <button
+                                       onClick={()=>handleDelete(id)}
+                                        className='cursor-pointer px-3 py-2 text-xs font-medium text-white bg-red-500'>Delete</button>
                                     </td>
                                 </tr>
                                 )}
