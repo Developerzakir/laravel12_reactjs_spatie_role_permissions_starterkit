@@ -58,7 +58,12 @@ class RoleController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $role = Role::find($id);
+       return Inertia::render('Roles/Edit',[
+            'role'=>$role,
+            'rolePermissions' => $role->permissions()->pluck('name'),
+            'permissions'=>Permission::pluck("name")
+        ]);
     }
 
     /**
@@ -66,7 +71,18 @@ class RoleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+         $request->validate([
+            'name'=>'required',
+            'permissions'=>'required',
+        ]);
+
+        $role = Role::find($id);
+        $role->name = $request->name;
+        $role->save();
+
+        $role->syncPermissions($request->permissions);
+
+        return to_route('roles.index');
     }
 
     /**
