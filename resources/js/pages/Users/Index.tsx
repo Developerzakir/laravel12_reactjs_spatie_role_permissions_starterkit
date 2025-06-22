@@ -1,6 +1,7 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
+import {can} from '@/lib/can';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -22,10 +23,10 @@ export default function Index({users}) {
             <Head title="Users" />
 
             <div className='p-3'>
-                 <Link  href={route('users.create')}
+                {can('users.create') && <Link  href={route('users.create')}
                     className='cursor-pointer px-3 py-2 text-xs font-medium text-white bg-blue-700'>
                     Create
-                </Link>
+                 </Link>}
                 <div className="overflow-x-auto">
                    <table className='w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray'>
                             <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700'>
@@ -65,9 +66,9 @@ export default function Index({users}) {
 
                                        <Link href={route("users.show",id)} className='cursor-pointer px-3 py-2 text-xs font-medium text-white bg-orange-700'>Show</Link>
 
-                                       <button
+                                        {can('users.delete') && <button
                                        onClick={()=>handleDelete(id)}
-                                        className='cursor-pointer px-3 py-2 text-xs font-medium text-white bg-red-500'>Delete</button>
+                                        className='cursor-pointer px-3 py-2 text-xs font-medium text-white bg-red-500'>Delete</button>}
                                     </td>
                                 </tr>
                                 )}

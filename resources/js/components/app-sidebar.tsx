@@ -7,6 +7,7 @@ import { Link } from '@inertiajs/react';
 import { BookOpen, Folder, LayoutGrid,Notebook,Users } from 'lucide-react';
 import AppLogo from './app-logo';
 
+
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
@@ -23,6 +24,8 @@ const mainNavItems: NavItem[] = [
         href: '/roles',
         icon: Notebook,
     },
+
+  
 ];
 
 const footerNavItems: NavItem[] = [

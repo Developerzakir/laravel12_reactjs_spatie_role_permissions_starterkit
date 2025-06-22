@@ -7,12 +7,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+
     public function index()
     {
         return Inertia::render("Users/Index",[
@@ -25,6 +28,11 @@ class UserController extends Controller
      */
     public function create()
     {
+         if (!Gate::allows('users.create')) {
+          abort(403); // No permission, no entry!
+         }
+
+         
         return Inertia::render("Users/Create",[
             'roles'=>Role::pluck('name')
         ]);
