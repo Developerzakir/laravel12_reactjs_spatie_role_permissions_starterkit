@@ -33,11 +33,12 @@ export default function Index({users}) {
                                     <th scope="col" className='px-6 py-3'>Id</th>
                                     <th scope="col" className='px-6 py-3'>Name</th>
                                     <th scope="col" className='px-6 py-3'>Email</th>
+                                    <th scope="col" className='px-6 py-3'>Roles</th>
                                     <th scope="col" className='px-6 py-3'>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {users.map(({id,name,email})=>
+                                {users.map(({id,name,email,roles})=>
                                 <tr className='odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-600'>
                                     <td className='px-6 py-3 font-medium text-gray-900 dark:text-white'>
                                         {id}
@@ -48,6 +49,17 @@ export default function Index({users}) {
                                     <td className='px-6 py-3 font-medium text-gray-300'>
                                         {email}
                                     </td>
+
+                                     <td className='px-6 py-3 font-medium text-gray-300'>
+                                        {roles.map((role)=>
+                                        <span key="1" 
+                                        className='mr-1 bg-green-100 text-green-800 text-xs font-medium'>
+                                            {role.name}
+                                        </span>
+                                        )}
+                                    </td>
+
+
                                     <td className='px-3 py-2 font-medium text-gray-300'>
                                        <Link href={route("users.edit",id)} className='cursor-pointer px-3 py-2 text-xs font-medium text-white bg-blue-700'>Edit</Link>
 

@@ -9,18 +9,28 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Create() {
+export default function Create({roles}) {
 
     const {data,setData,errors,post} = useForm({
         name:"",
         email:"",
-        password:""
+        password:"",
+        roles: []
     });
 
     function submit(e){
         e.preventDefault();
         post(route('users.store'));
     }
+
+    function handleCheckBoxChange(roleName, checked){
+        if(checked){
+            setData("roles", [...data.roles,roleName]);
+        }else{
+            setData("roles",data.roles.filter(name=>name !== roleName));
+        }
+    }
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="User Create" />
@@ -81,6 +91,27 @@ export default function Create() {
                           />
                           {errors.password && <p className='text-red-500 text-sm mt-1'>{errors.password}</p>}
                     </div>
+
+                       <div className='grid-gap-2'>
+                            <label for="" className='text-sm leading-none font-medium select-none '>
+                                Roles
+                            </label>
+
+                            {roles.map((role)=>
+                            <label key={role} className='flex items-center space-x-2'>
+                                <input 
+                                type="checkbox"
+                                value={role}
+                                id={role}
+                                onChange={(e)=>handleCheckBoxChange(role, e.target.checked)}
+                                className='form-checkbox h-5 w-5 text-blue-600 rounded focus:ring-2 '
+                                />
+                                <span className='text-gray-800 capitalize'>{role}</span>
+                            </label>
+                            )}
+
+                          {errors.roles && <p className='text-red-500 text-sm mt-1'>{errors.roles}</p>}
+                        </div>
 
                     <button type="submit" className='bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4'>Submit</button>
                 </form>

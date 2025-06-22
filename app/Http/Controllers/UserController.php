@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -15,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
         return Inertia::render("Users/Index",[
-            'users'=>User::all()
+            'users'=>User::with('roles')->get()
         ]);
     }
 
@@ -24,7 +25,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        return Inertia::render("Users/Create");
+        return Inertia::render("Users/Create",[
+            'roles'=>Role::pluck('name')
+        ]);
     }
 
     /**
@@ -38,11 +41,13 @@ class UserController extends Controller
         'password'=> 'required',
        ]);
 
-       User::create(
+      $user =  User::create(
         $request->only(['name','email'])
         +
         ["password"=>Hash::make($request->password)]
        );
+
+       $user->syncRoles($request->roles);
 
        return to_route('users.index');
 
@@ -67,7 +72,9 @@ class UserController extends Controller
         $user = User::find($id);
 
         return Inertia::render("Users/Edit",[
-            'user'=>$user
+            'user'=>$user,
+            'userRoles'=>$user->roles()->pluck('name'),
+            'roles'=>Role::pluck('name')
         ]);
     }
 
@@ -90,6 +97,8 @@ class UserController extends Controller
             $user->password = Hash::make($request->password);
         }
         $user->save();
+
+        $user->syncRoles($request->roles);
 
         return to_route('users.index');
     }
