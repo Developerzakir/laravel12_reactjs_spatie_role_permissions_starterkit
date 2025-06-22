@@ -42,7 +42,10 @@ export default function Index({users}) {
                                         {email}
                                     </td>
                                     <td className='px-3 py-2 font-medium text-gray-300'>
-                                       <button className='cursor-pointer px-3 py-2 text-xs font-medium text-white bg-blue-700'>Edit</button>
+                                       <Link href={route("users.edit",id)} className='cursor-pointer px-3 py-2 text-xs font-medium text-white bg-blue-700'>Edit</Link>
+
+                                       <Link href={route("users.show",id)} className='cursor-pointer px-3 py-2 text-xs font-medium text-white bg-orange-700'>Show</Link>
+
                                        <button className='cursor-pointer px-3 py-2 text-xs font-medium text-white bg-red-500'>Delete</button>
                                     </td>
                                 </tr>
