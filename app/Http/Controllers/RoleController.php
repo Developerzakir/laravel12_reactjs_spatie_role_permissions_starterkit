@@ -50,7 +50,12 @@ class RoleController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $role = Role::find($id);
+
+        return Inertia::render('Roles/Show',[
+            'role'=>$role,
+            'permissions'=>$role->permissions()->pluck('name')
+        ]);
     }
 
     /**
@@ -90,6 +95,7 @@ class RoleController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Role::destroy($id);
+        return to_route('roles.index');
     }
 }
